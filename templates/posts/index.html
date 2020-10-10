@@ -1,0 +1,100 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<!--================Post Slider Area =================-->
+<section class="post_slider_area">
+    <div class="post_slider_inner owl-carousel">
+
+        {% for i in slider_posts %}
+        <div class="item">
+            <div class="post_s_item">
+                <div class="post_img">
+                    <img src="{{ i.image.url }}" alt="">
+                </div>
+                <div class="post_text">
+
+                    {% for tag in i.tag.all %}
+                    <!-- posta ait olan tüm tagları listele diyoruz bu for döngüsünde
+                    oöncek, 6. satırda for döngüsnde i kullandıgımız için i kullandık -->
+                    <a class="cat" href="{% url 'tag_detail' tag.slug %} "> {{ tag.title }} </a> {% endfor %}
+
+                    <a href="{% url 'detail' pk=i.id slug=i.slug %}">
+                        <h4> {{ i.title }} </h4>
+                    </a>
+                    <p> {{ i.content | truncatechars:100 }} </p>
+                    <div class="date">
+                        <a href="#"><i class="fa fa-calendar" aria-hidden="true"></i> {{ i.date }} </a>
+                        <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> {{ i.post_count }} </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+<!--================End Post Slider Area =================-->
+
+<!--================Blog Area =================-->
+<section class="blog_area p_120">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="blog_left_sidebar">
+
+                    {% for i in posts %}
+                    <!-- context_object_name den geliyor posts-->
+
+                    <article class="blog_style1">
+                        <div class="blog_img">
+                            <img class="img-fluid" src="{{ i.image.url }}" alt="">
+                        </div>
+                        <div class="blog_text">
+                            <div class="blog_text_inner">
+                                <a class="cat" href="#"> {{ i.user }} </a>
+                                <a href="{% url 'detail' pk=i.id slug=i.slug %}">
+                                    <h4>{{ i.title }}</h4>
+                                </a>
+                                <p>{{ i.content | truncatechars:150 }}</p>
+                                <!-- truncatechars gösterielcek karakter demek -->
+
+                                <div class="date">
+                                    <a href="#"><i class="fa fa-calendar" aria-hidden="true"></i> {{ i.date }} </a>
+                                    <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 05</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    {% endfor %}
+
+                    <nav class="blog-pagination justify-content-center d-flex">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a href="#" class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-left"></span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a href="#" class="page-link">01</a></li>
+                            <li class="page-item active"><a href="#" class="page-link">02</a></li>
+                            <li class="page-item"><a href="#" class="page-link">03</a></li>
+                            <li class="page-item"><a href="#" class="page-link">04</a></li>
+                            <li class="page-item"><a href="#" class="page-link">09</a></li>
+                            <li class="page-item">
+                                <a href="#" class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-right"></span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            {% include 'right_side.html' %}
+        </div>
+    </div>
+</section>
+<!--================Blog Area =================-->
+
+{% endblock content %}
